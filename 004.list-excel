@@ -1,0 +1,63 @@
+#coding:utf8
+import MySQLdb
+import string
+import random
+key_len=20
+key_all=10
+
+def key_get():
+    keylist=(random.choice(string.letters+string.digits) for i in range(key_len))
+    return "".join(keylist)
+def key_num(num,result=None):
+    if result is None:
+        result=[]
+    for i in range(num):
+        result.append(key_get())
+    return result
+
+class mysql_init(object):
+    def __init__(self,conn):
+        self.conn=None
+    def connect(self):
+        self.conn=MySQLdb.connect(
+            host='172.168.10.9',
+            port=4306,
+            user='dsuser',
+            passwd='ds!@#',
+            charset='utf8'
+        )
+    def cursor(self):
+        try:
+            return self.conn.cursor()
+        except(AttributeError, MySQLdb.OperationalError):
+            self.connect()
+            return self.conn.cursor()
+    def commit_shiwu(self):
+        self.conn.commit()
+    def conn_close(self):
+        self.conn.close()
+
+def InsertDatas(cu):
+    insert_sql='insert into ds_activity.pa_user  (platform) values(%(value)s)'
+    key_list=key_num(key_all)
+    cu.executemany(insert_sql,[dict(value=v) for v in key_list])
+
+def QueryDatas(cu):
+    query_sql='select * from ds_activity.pa_user'
+    cu.execute(query_sql)
+    rows=cu.fetchall()
+    for i in rows:
+        print i
+
+def process():
+    dbconn=mysql_init(None)
+    dbconn.connect()
+    cur=dbconn.cursor()
+    InsertDatas(cur)
+    QueryDatas(cur)
+    dbconn.commit_shiwu()
+    cur.close()
+    dbconn.conn_close()
+
+if __name__=='__main__':
+    process()
