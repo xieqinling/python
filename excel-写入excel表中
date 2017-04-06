@@ -1,0 +1,26 @@
+#coding:utf8
+import xlrd
+import xlwt
+
+data=xlrd.open_workbook('E:\\pythonexcel.xlsx')
+shxrange=range(data.nsheets)
+try:
+    sh=data.sheet_by_name("Sheet1")
+except:
+    print "no sheet  named Sheet1"
+nrows=sh.nrows
+ncols=sh.ncols
+print "nrows %d, ncols %d"%(nrows,ncols)
+cell_value=sh.cell_value(1,1)
+print cell_value
+row_list=[]
+for i in range(1,nrows):
+    row_data=sh.row_values(i)
+    row_list.append(row_data)
+
+w=xlwt.Workbook()
+ws=w.add_sheet('hey')
+ws.write(0,0,'bti')
+ws.write(0,1,'huang')
+ws.write(1,0,'xuan')
+w.save("E:\\excelpython.xlsx")
