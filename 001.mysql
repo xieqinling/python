@@ -77,3 +77,4 @@ if __name__=='__main__':
         print "出现问题："+ str(e)
     finally:
         conn.close()
+        
