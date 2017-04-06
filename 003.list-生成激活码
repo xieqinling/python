@@ -1,0 +1,19 @@
+#生成10个激活码，每串激活码20个字符
+import string
+import random
+KYE_len=20
+KEY_ALL=10
+def key_gen():
+    keylist=[random.choice((string.letters+string.digits)) for i in range(KYE_len)]
+    return ("".join(keylist))
+def key_num(num,result=None):
+    if result is None:
+        result=[]
+    for i in range(num):
+        result.append(key_gen())
+    return result
+def print_key(num):
+    for i in key_num(num):
+        print i
+if __name__=="__main__":
+print_key(KEY_ALL)
