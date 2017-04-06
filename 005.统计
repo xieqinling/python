@@ -1,0 +1,12 @@
+from collections import  Counter
+import re
+def  chuliwenjian(filename):
+    datalist=[]
+    with open(filename,'r') as f:
+        for line in f:
+            content=re.sub("\"|\.|,", " " ,line)
+            datalist.extend(content.strip().split(" "))
+    print Counter(datalist)
+if __name__=='__main__':
+    filename='E:\python\wenjian.txt'
+chuliwenjian(filename)
