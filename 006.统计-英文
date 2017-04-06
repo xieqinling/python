@@ -1,0 +1,20 @@
+#coding:utf8
+import glob
+import  re
+from collections import  Counter
+def list_txt():
+    return glob.glob(r'E:\python\riji\*.txt')
+def wenjian(filename):
+    datalist=[]
+    with open(filename) as f:
+        for line in f:
+            content=re.sub(r'\'|\.\,', ' ' ,line)
+            datalist.extend(content.strip().split(' '))
+    print Counter(datalist).most_common(1)
+def most_conn():
+    all_txt=list_txt()
+    for txt in all_txt:
+        print txt
+        wenjian(txt)
+if __name__=='__main__':
+    most_conn()
